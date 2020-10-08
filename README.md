@@ -7,6 +7,22 @@ Compile TrueCrypt from sources in Docker container
 - [ ] Remove wxWidgets external dependency (omit curl call), include tar.gz in this repo
 - [ ] Use git patches instead of ugly in-place sed replacements
 - [ ] Find required shared libraries to be copied to the lean container
+- [ ] Fix possibly wxwidgets related "Error: Invalid characters encountered."
+
+## Fix wxwidgets proposal
+
+```
+  export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+  export VERBOSE=1
+  export WX_BUILD_DIR="$PWD/wxBuildGui"
+  export WX_ROOT="$PWD/$_wxname-$_wxversion"
+  tar -xvzf "$srcdir/$_wxname-$_wxversion.tar.gz" -C "$PWD"
+  make WXSTATIC=1 wxbuild
+  make WXSTATIC=1 clean
+  make WXSTATIC=1
+
+??? could also use wxwidgets 3.0.2 ???
+```
 
 ## Shared libraries the built binary depends on
 
