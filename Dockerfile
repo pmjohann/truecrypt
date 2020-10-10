@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM alpine:3.12
 
 RUN apk add curl libuuid git alpine-sdk nasm fuse-dev && \
   cd /tmp && git clone https://github.com/FreeApophis/TrueCrypt.git && \
