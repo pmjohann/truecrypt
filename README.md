@@ -1,6 +1,34 @@
 # Truecrypt from sources
 Compile TrueCrypt from sources in Docker container
 
+## Samples
+
+### With keyfile
+
+```sh
+CONTAINER=/tckf.tc
+MOUNTPOINT=/mnt/tckf
+PASSWORD="1234567890"
+KEYFILE=/tmp/kf
+
+dd if=/dev/urandom of=$KEYFILE bs=1M count=1
+truecrypt -c --volume-type=Normal --size=10000000 --encryption=AES --hash=SHA-512 --filesystem=FAT --password="$PASSWORD" --random-source=/dev/urandom -k=$KEYFILE $CONTAINER
+mkdir -p $MOUNTPOINT
+truecrypt -k=$KEYFILE --password="$PASSWORD" --protect-hidden=no $CONTAINER $MOUNTPOINT
+```
+
+### Without keyfile
+
+```sh
+CONTAINER=/tc.tc
+MOUNTPOINT=/mnt/tc/
+PASSWORD="1234567890"
+
+truecrypt -c --volume-type=Normal --size=10000000 --encryption=AES --hash=SHA-512 --filesystem=FAT --password=$PASSWORD --random-source=/dev/urandom -k='' $CONTAINER
+mkdir -p $MOUNTPOINT
+truecrypt -k='' --password=$PASSWORD --protect-hidden=no $CONTAINER $MOUNTPOINT
+```
+
 ## TODO
 
 - [ ] Use multi-stage build to copy the compiled binary to a lean container
